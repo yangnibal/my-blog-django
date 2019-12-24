@@ -19,6 +19,7 @@ from django.urls import path, include
 from rest_framework import routers
 from account.views import UserViewSet
 from post.views import PostViewSet, CommentViewSet, detail, delete
+from notice.views import NoticeViewSet
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,6 +27,7 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'posts', PostViewSet)
 router.register(r'comments', CommentViewSet)
+router.register(r'notices', NoticeViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

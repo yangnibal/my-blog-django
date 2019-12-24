@@ -66,6 +66,16 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
+    @action(detail=False, list=True, methods=['POST'])
+    def follow(self, request):
+        follow = User.objects.get(username=request.data['username'])
+        if request.user in follow.followers.all():
+            follow.followers.remove(request.user)
+            return Response(status=status.HTTP_202_ACCEPTED)
+        else:
+            follow.followers.add(request.user)
+            return Response(status=status.HTTP_200_OK)
+
 
 
     

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import action, api_view
 from .models import Post, Comment
+from account.models import User
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework.response import Response
 from rest_framework import viewsets, status
@@ -30,7 +31,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, list=True, methods=['POST'])
     def otherpost(self, request):
-        user = User.object.get(username=request.data['username'])
+        user = User.objects.get(username=request.data['username'])
         post = Post.objects.filter(author=user)
         serializer = PostSerializer(post, many=True)
         return Response(serializer.data)

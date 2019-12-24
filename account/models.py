@@ -24,10 +24,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 	is_superuser = models.BooleanField(default=False)
 	is_staff = models.BooleanField(default=False)
 	short_intro = models.CharField(max_length=100, null=True)
-	github_link = models.CharField(max_length=30, null=True)
-	facebook_link = models.CharField(max_length=30, null=True)
-	homepage_link = models.CharField(max_length=30, null=True)
+	github_link = models.CharField(max_length=60, null=True)
+	facebook_link = models.CharField(max_length=60, null=True)
+	homepage_link = models.CharField(max_length=60, null=True)
 	joined_date = models.DateTimeField(default=timezone.now)
+	followers = models.ManyToManyField(settings.AUTH_USER_MODEL, default=None)
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = ['email', 'password', 'is_staff']
 

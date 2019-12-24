@@ -4,9 +4,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    followers = serializers.CharField(source='followers.username', read_only=True)
     class Meta:
         model = User
-        fields = ['profile_img', 'name', 'username', 'email', 'password', 'is_staff', 'short_intro', 'github_link', 'facebook_link', 'homepage_link']
+        fields = ['profile_img', 'name', 'username', 'email', 'password', 'is_staff', 'short_intro', 'github_link', 'facebook_link', 'homepage_link', 'followers']
 
     def create(self, validated_data):
         user = User.objects.create(**validated_data)
@@ -25,11 +26,11 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         instance.username = validated_data.get("username", instance.username)
         instance.profile_img = validated_data.get("profile_img", instance.profile_img)
         instance.set_password(validated_data.get('password', instance.password))
-        instance.car_type = validated_data.get("car_type", instance.car_type)
         instance.short_intro = validated_data.get("short_intro", instance.short_intro)
         instance.github_link = validated_data.get("github_link", instance.github_link)
         instance.facebook_link = validated_data.get("facebook_link", instance.facebook_link)
         instance.homepage_link = validated_data.get("homepage_link", instance.homepage_link)
+        
         instance.save()
         return instance
 
